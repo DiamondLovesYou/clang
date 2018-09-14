@@ -17,6 +17,10 @@ set( LLVM_LINK_COMPONENTS
   Vectorize
   )
 
+if(WITH_POLLY AND LINK_POLLY_INTO_TOOLS)
+  list(APPEND LLVM_LINK_COMPONENTS Polly)
+endif()
+
 option(CLANG_PLUGIN_SUPPORT "Build clang with plugin support" ON)
 
 # Support plugins. This must be before add_clang_executable as it reads
@@ -122,7 +126,3 @@ if(CLANG_ORDER_FILE AND
     set_target_properties(clang PROPERTIES LINK_DEPENDS ${CLANG_ORDER_FILE})
   endif()
 endif()
-
-if(WITH_POLLY AND LINK_POLLY_INTO_TOOLS)
-  target_link_libraries(clang PRIVATE Polly)
-endif(WITH_POLLY AND LINK_POLLY_INTO_TOOLS)
